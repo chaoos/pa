@@ -28,22 +28,22 @@ function _pgrep {
 }
 
 # log the output
-exec 1> >(perl -nle 'BEGIN{$|=1} $d = localtime(); s/^/$d - /; print' >>"$(cd $(dirname $0) && pwd)/../logs/osx-$(basename $0).log")
+exec 1> >(perl -nle 'BEGIN{$|=1} $d = localtime(); s/^/$d - /; print' >>"$(cd "$(dirname "$0")" && pwd)/../logs/osx-$(basename "$0").log")
 exec 2>&1
 
 echo "URL: $1"
 URI="$1"
 
 # the script directroy
-SD=$(dirname $0)
+SD="$(dirname "$0")"
 
 # check if it is a valid spice URL
 echo $URI | grep -qE 'spice://[a-zA-z0-9\.]+\?port=[0-9]+\&password=[a-zA-Z0-9\-]+$'
 if [ $? -eq 0 ]; then
-  echo "CMD: $SD/RemoteViewer.app/Contents/MacOS/RemoteViewer \"$URI\""
+  echo "CMD: \"$SD/RemoteViewer.app/Contents/MacOS/RemoteViewer\" \"$URI\""
 
   # call the application in the background
-  $SD/RemoteViewer.app/Contents/MacOS/RemoteViewer "$URI" &
+  "$SD/RemoteViewer.app/Contents/MacOS/RemoteViewer" "$URI" &
 
   osascript -e "
     set i to 0
