@@ -32,6 +32,7 @@ exec 1> >(perl -nle 'BEGIN{$|=1} $d = localtime(); s/^/$d - /; print' >>$(cd $(d
 exec 2>&1
 
 echo "URL: $1"
+URI="$1"
 
 # the script directroy
 SD=$(dirname $0)
