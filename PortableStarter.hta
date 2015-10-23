@@ -78,7 +78,7 @@ sub window_onLoad
   DriveLetter = fso.GetDriveName(CurrentDirectory)
 
   ' Executable file of Firefox
-  exe = fso.BuildPath(DriveLetter, "\.data\win\Firefox-41\firefox.exe")
+  exe = fso.BuildPath(DriveLetter, "\.data\win\Firefox\firefox.exe")
 
   ' The Handler script
   SpiceHandler = fso.BuildPath(DriveLetter, "\.data\win\SpiceURLHandler.vbs")
