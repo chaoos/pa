@@ -61,6 +61,8 @@ End Sub
 
 sub window_onLoad
 
+  StartPage = "https://www.google.com/"
+
   ' before firefox starts, show a slapsh screen in the center of the window
   window.resizeTo 450,318
   window.moveTo ((screen.width-450)/2), ((screen.height-318)/2)
@@ -108,7 +110,7 @@ sub window_onLoad
 
   document.getElementById("progress").innerHTML = "Firefox wird gestartet..."
   ' Run Firefox
-  sho.Run(exe &  " -no-remote -new-instance -profile " & chr(34) & ffProfileDir & chr(34))
+  sho.Run(exe & " -no-remote -new-instance -profile " & chr(34) & ffProfileDir & chr(34) & " " & chr(34) & StartPage & chr(34))
 
   sleep(3)
   self.close
