@@ -4,4 +4,4 @@ do shell script "[ -d " & pwd & "/.data/firefox/profile ] || cp -r " & pwd & "/.
 
 do shell script "sed 's|__INSERT_REMOTE_VIEWER_PATH_HERE__|" & pwd & ".data/osx/SpiceURLHandler|g' " & pwd & ".data/osx/Other/mimeTypes.rdf >" & pwd & ".data/firefox/profile/mimeTypes.rdf"
 
-do shell script pwd & "/.data/osx/Firefox.app/Contents/MacOS/firefox-bin -no-remote -profile " & pwd & "/.data/firefox/profile/ >> " & pwd & "/.data/logs/osx-firefox.log 2>&1 &"
+do shell script pwd & "/.data/osx/Firefox.app/Contents/MacOS/firefox-bin -no-remote -profile " & pwd & "/.data/firefox/profile/ https://cloud.kszofingen.ch/ >> " & pwd & "/.data/logs/osx-firefox.log 2>&1 &"
