@@ -31,11 +31,14 @@ function _pgrep {
 exec 1> >(perl -nle 'BEGIN{$|=1} $d = localtime(); s/^/$d - /; print' >>"$(cd "$(dirname "$0")" && pwd)/../logs/osx-$(basename "$0").log")
 exec 2>&1
 
-echo "URL: $1"
-URI="$1"
+echo "URL pre: $1"
+
+# resolve the missing ips (should be removed later)
+URI=$(echo $1 | sed 's/192.168.140.13/vmsrv01.kszofingen.ch/g; s/192.168.140.14/vmsrv02.kszofingen.ch/g')
 
 # the script directroy
 SD="$(dirname "$0")"
+echo "URL post: $URI"
 
 # check if it is a valid spice URL
 echo $URI | grep -qE 'spice://[a-zA-z0-9\.]+\?port=[0-9]+\&password=[a-zA-Z0-9\-]+$'
