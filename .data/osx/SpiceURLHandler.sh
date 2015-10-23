@@ -33,9 +33,6 @@ exec 2>&1
 
 echo "URL pre: $1"
 
-# resolve the missing ips (should be removed later)
-URI=$(echo $1 | sed 's/192.168.140.13/vmsrv01.kszofingen.ch/g; s/192.168.140.14/vmsrv02.kszofingen.ch/g')
-
 # the script directroy
 SD=$(dirname $0)
 echo "URL post: $URI"
