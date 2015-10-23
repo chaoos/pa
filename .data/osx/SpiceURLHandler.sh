@@ -28,7 +28,7 @@ function _pgrep {
 }
 
 # log the output
-exec 1> >(perl -nle 'BEGIN{$|=1} $d = localtime(); s/^/$d - /; print' >>$(cd $(dirname $0) && pwd)/../logs/osx-$(basename $0).log)
+exec 1> >(perl -nle 'BEGIN{$|=1} $d = localtime(); s/^/$d - /; print' >>"$(cd $(dirname $0) && pwd)/../logs/osx-$(basename $0).log")
 exec 2>&1
 
 echo "URL: $1"
