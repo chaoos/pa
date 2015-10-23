@@ -42,10 +42,6 @@ if regex.Test(SpiceURL) Then
 
   SpiceClient = fso.BuildPath(DriveLetter, "\.data\Win\VirtViewer\bin\remote-viewer.exe")
 
-  ' Replace the ip adresses (should be removed later)
-  SpiceURL = Replace(SpiceURL, "192.168.140.13", "vmsrv01.kszofingen.ch")
-  SpiceURL = Replace(SpiceURL, "192.168.140.14", "vmsrv02.kszofingen.ch")
-
   ' Log the extracted information
   objLogFile.Write Date & " " & Time & " - URL Post: " & SpiceURL & vbCrLf
   objLogFile.Write Date & " " & Time & " - Client: " & SpiceClient & vbCrLf
