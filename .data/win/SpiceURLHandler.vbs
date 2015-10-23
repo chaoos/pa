@@ -26,7 +26,7 @@ CurrentDirectory = fso.GetAbsolutePathName(".")
 DriveLetter = fso.GetDriveName(CurrentDirectory)
 
 ' The logfile
-LogFile = fso.BuildPath(DriveLetter, "\.data\logs\WinSpiceURLHandler.log")
+LogFile = fso.BuildPath(DriveLetter, "\.data\logs\win-SpiceURLHandler.log")
 
 ' Open the logfile
 Set objLogFile = fso.OpenTextFile(LogFile, 8, True) 
