@@ -26,7 +26,7 @@ CurrentDirectory = fso.GetAbsolutePathName(".")
 DriveLetter = fso.GetDriveName(CurrentDirectory)
 
 ' The logfile
-LogFile = fso.BuildPath(DriveLetter, "\.data\Win\log\SpiceURLHandler.log")
+LogFile = fso.BuildPath(DriveLetter, "\.data\logs\win-SpiceURLHandler.log")
 
 ' Open the logfile
 Set objLogFile = fso.OpenTextFile(LogFile, 8, True) 
@@ -40,7 +40,7 @@ if regex.Test(SpiceURL) Then
   ' Log the original URL
   objLogFile.Write Date & " " & Time & " - URL Pre: " & SpiceURL & vbCrLf
 
-  SpiceClient = fso.BuildPath(DriveLetter, "\.data\Win\VirtViewer\bin\remote-viewer.exe")
+  SpiceClient = fso.BuildPath(DriveLetter, "\.data\win\VirtViewer\bin\remote-viewer.exe")
 
   ' Replace the ip adresses (should be removed later)
   SpiceURL = Replace(SpiceURL, "192.168.140.13", "vmsrv01.kszofingen.ch")
