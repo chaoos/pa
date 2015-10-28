@@ -1,0 +1,4 @@
+# Ignore the binaries
+PortableStarter.exe
+PortableStarter.app
+PortableStarter.app/*
