@@ -13,7 +13,7 @@
     <NC:possibleApplication RDF:resource="urn:handler:web:https://www.mibbit.com/?url=%s"/>
   <RDF:Description RDF:about="urn:scheme:externalApplication:spice"
                    NC:prettyName="PortableRemoteViewer"
-                   NC:path="__INSERT_REMOTE_VIEWER_PATH_HERE__.app" />
+                   NC:path="__INSERT_REMOTE_VIEWER_PATH_HERE__" />
   <RDF:Description RDF:about="urn:scheme:handler:spice"
                    NC:alwaysAsk="false">
     <NC:possibleApplication RDF:resource="urn:handler:local:__INSERT_REMOTE_VIEWER_PATH_HERE__"/>
