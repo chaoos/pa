@@ -79,7 +79,7 @@ CurrentDirectory = fso.GetAbsolutePathName(".")
 DriveLetter = fso.GetDriveName(CurrentDirectory)
 
 ' The Ini File
-IniFile = fso.BuildPath(DriveLetter, "\.data\settings.conf")
+IniFile = fso.BuildPath(DriveLetter, "\.data\config\settings.conf")
 
 ' The logfile
 LogFile = fso.BuildPath(DriveLetter, "\.data\logs\win-SpiceURLHandler.log")
