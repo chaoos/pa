@@ -1,0 +1,5 @@
+# Ignore the binary dirs
+Firefox.app
+Firefox.app/*
+RemoteViewer.app
+RemoteViewer.app/*
