@@ -1,15 +1,9 @@
 ' SpiceURLHandler.vbs - Spice Handler
 '
 ' Author: Roman Gruber <roman.gruber@bwzofingen.ch>
-' Version: 1.0
-' Called by: Firefox
-' Calls: remote-viewer.exe
 ' Description: Examines the Drive Letter of the USB Device. Check the provided Spice Link.
 '              Extract the host, the port and the password and build a command for remote-
 '              viewer.exe.
-'
-' Changelog: 03.12.2014 - roman.gruber@bwzofingen.ch
-'             - initial version 1.0
 '
 
 ' This function returns a value read from an INI file
@@ -65,8 +59,20 @@ Function GetInivalue(strFilePath,strSection,strKey)
   End If
 End Function
 
-Dim sho
-Dim fso
+' Query the win32_process instances if the script is alreay running
+Dim svc, query, ncount
+Set svc = getobject("winmgmts:root\cimv2")
+query = "select commandline from win32_process " & _
+    "where (not ((commandline like ""%command.com%"") or (commandline like ""%cmd.exe%""))) and " & _
+    "(commandline like ""%[WC]Script.exe%" & wscript.scriptname & "%"")"
+
+If svc.execquery(query).count > 1 Then
+  ' Already running, so quit
+  wscript.quit
+End if
+Set svc = nothing
+
+Dim sho, fso
 Set sho = WScript.CreateObject("Wscript.Shell")
 set fso = CreateObject("Scripting.FileSystemObject")
 
@@ -79,10 +85,10 @@ CurrentDirectory = fso.GetAbsolutePathName(".")
 DriveLetter = fso.GetDriveName(CurrentDirectory)
 
 ' The Ini File
-IniFile = fso.BuildPath(DriveLetter, "\.data\config\settings.conf")
+IniFile = fso.BuildPath(CurrentDirectory, "\.data\config\settings.conf")
 
 ' The logfile
-LogFile = fso.BuildPath(DriveLetter, "\.data\logs\win-SpiceURLHandler.log")
+LogFile = fso.BuildPath(CurrentDirectory, "\.data\logs\win-SpiceURLHandler.log")
 
 ' Open the logfile
 Set objLogFile = fso.OpenTextFile(LogFile, 8, True) 
@@ -96,8 +102,7 @@ if regex.Test(SpiceURL) Then
   ' Log the original URL
   objLogFile.Write Date & " " & Time & " - URL Pre: " & SpiceURL & vbCrLf
 
-  ' SpiceClientBinary = fso.BuildPath(DriveLetter, "\.data\win\VirtViewer\bin\remote-viewer.exe")
-  SpiceClientBinary = fso.BuildPath(DriveLetter, GetInivalue( IniFile, "Windows", "SpiceClientBinary" ))
+  SpiceClientBinary = fso.BuildPath(CurrentDirectory, GetInivalue( IniFile, "Windows", "SpiceClientBinary" ))
   SpiceClientArgs = GetInivalue( IniFile, "Windows", "SpiceClientArgs" )
 
   ' Log the extracted information

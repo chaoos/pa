@@ -1,17 +1,17 @@
  <!DOCTYPE html> 
 <html>
 <head>
-<title>Windows Potable Firefox</title>
+<title>Windows Portable Starter</title>
 <HTA:APPLICATION
-  APPLICATIONNAME="Windows Potable Firefox"
-  ID="objPortableFF"
+  APPLICATIONNAME="Windows Portable Starter"
+  ID="objPortable"
   VERSION="1.0"
   BORDER="none"
   INNERBORDER="no"
   CAPTION="no"
   MAXIMIZEBUTTON="no"
   MINIMIZEBUTTON="no"
-  ICON="appicon.ico"
+  ICON="PortableStarter.ico"
   SCROLL="no"
   SINGLEINSTANCE="yes"
   CONTEXTMENU="no"
@@ -38,18 +38,12 @@
 
 <script language="VBScript">
 
-' Windows.hta - Start Firefox Portable
+' PortableStarter.hta - Start Portable Firefox
 '
 ' Author: Roman Gruber <roman.gruber@bwzofingen.ch>
-' Version: 1.0
-' Called by: user
-' Calls: firefox.exe, 
 ' Description: Examines the Drive Letter of the USB Device and changes
 '              the path of the Spice URL Handler in the file mimeTypes.rdf.
 '              Then it starts Firefox Porable with the -no-remote option.
-'
-' Changelog: 03.12.2014 - roman.gruber@bwzofingen.ch
-'             - initial version 1.0
 '
 
 ' function to sleep amount of seconds
@@ -123,25 +117,25 @@ sub window_onLoad
   Set sho = CreateObject("Wscript.Shell")
   set fso = CreateObject("Scripting.FileSystemObject")
 
-  ' Get the USB Drive Letter
+  ' Get the USB Drive Path and Letter
   dim CurrentDirectory
   CurrentDirectory = fso.GetAbsolutePathName(".")
   DriveLetter = fso.GetDriveName(CurrentDirectory)
 
   ' The Ini File
-  IniFile = fso.BuildPath(DriveLetter, "\.data\config\settings.conf")
+  IniFile = fso.BuildPath(CurrentDirectory, "\.data\config\settings.conf")
 
   StartPage = GetInivalue( IniFile, "General", "StartPage" )
 
   ' Executable file of Firefox
-  FirefoxBinary = fso.BuildPath(DriveLetter, GetInivalue( IniFile, "Windows", "FirefoxBinary" ))
+  FirefoxBinary = fso.BuildPath(CurrentDirectory, GetInivalue( IniFile, "Windows", "FirefoxBinary" ))
 
   ' The Handler script
-  FirefoxSpiceURLHandler = fso.BuildPath(DriveLetter, GetInivalue( IniFile, "Windows", "FirefoxSpiceURLHandler" ))
+  FirefoxSpiceURLHandler = fso.BuildPath(CurrentDirectory, GetInivalue( IniFile, "Windows", "FirefoxSpiceURLHandler" ))
 
   ' Profile Directory of the Firefox Profile
-  FirefoxProfileDir = fso.BuildPath(DriveLetter, GetInivalue( IniFile, "Windows", "FirefoxProfileDir" ))
-  FirefoxDefaultProfile = fso.BuildPath(DriveLetter, GetInivalue( IniFile, "Windows", "FirefoxDefaultProfile" ))
+  FirefoxProfileDir = fso.BuildPath(CurrentDirectory, GetInivalue( IniFile, "Windows", "FirefoxProfileDir" ))
+  FirefoxDefaultProfile = fso.BuildPath(CurrentDirectory, GetInivalue( IniFile, "Windows", "FirefoxDefaultProfile" ))
 
   ' If it doesn't exists create it
   If Not (fso.FolderExists(FirefoxProfileDir)) Then
@@ -150,7 +144,7 @@ sub window_onLoad
   End If
 
   ' The mimeTypes.rdf paths
-  FirefoxMimetypes = fso.BuildPath(DriveLetter, GetInivalue( IniFile, "Windows", "FirefoxMimetypes" ))
+  FirefoxMimetypes = fso.BuildPath(CurrentDirectory, GetInivalue( IniFile, "Windows", "FirefoxMimetypes" ))
   FirefoxMimetypesTarget = fso.BuildPath(FirefoxProfileDir, "mimeTypes.rdf")
 
   ' Read the contents of the mimeTypes.rdf source file
