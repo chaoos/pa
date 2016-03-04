@@ -13,6 +13,8 @@
 #             - initial version 1.0
 #            23.09.2015 - roman.gruber@bwzofingen.ch
 #             - version 1.1: added more portablility
+#            04.03.2016 - roman.gruber@bwzofingen.ch
+#             - version 1.2: read from windows newlinebreaked config file, added URLMapper functionality
 #
 
 # poor mans pgrep
@@ -35,19 +37,25 @@ echo "URL: $1"
 URI="$1"
 
 # the dir path of the script
-sd="$( cd $(dirname "$0"); pwd -P )"
+sd="$( cd "$(dirname "$0")"; pwd -P )"
 
 # the root dir
 rootdir="${sd%/*/*}"
 
 # get the values in settings.conf of the sections General and OSX
-eval "$(sed -n -e '/^\[General\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}' "${sd}/../config/settings.conf")"
-eval "$(sed -n -e '/^\[OSX\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}' "${sd}/../config/settings.conf")"
+eval "$(perl -pe 'y|\r||d' "${sd}/../config/settings.conf" | sed -n -e '/^\[General\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}')"
+eval "$(perl -pe 'y|\r||d' "${sd}/../config/settings.conf" | sed -n -e '/^\[OSX\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}')"
+eval "$(perl -pe 'y|\r||d' "${sd}/../config/settings.conf" | sed -n -e '/^\[URLMapper\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}')"
 
 # check if it is a valid spice URL
 echo $URI | grep -qE 'spice://[a-zA-z0-9\.]+\?port=[0-9]+\&password=[a-zA-Z0-9\-]+$'
 if [ $? -eq 0 ]; then
   [ -n "${SpiceClientBinary}" ] && SpiceClientBinary="${rootdir}/${SpiceClientBinary}"
+
+  # apply all URL mappings from the config file
+  for (( i=0; i<${#SpiceURLSearchString[@]}; i++ )); do
+    URI="${URI//${SpiceURLSearchString[$i]}/${SpiceURLReplaceString[$i]}}"
+  done
 
   echo "CMD: \"${SpiceClientBinary}\" ${SpiceClientArgs} \"$URI\""
 
