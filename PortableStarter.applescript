@@ -5,4 +5,5 @@
 set pwd to POSIX path of ((path to me as text) & "::")
 
 # run the starter script
-do shell script pwd & "/.data/osx/PortableStarter.sh"
+do shell script "'" & pwd & "/.data/osx/PortableStarter.sh'"
+

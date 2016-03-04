@@ -8,14 +8,14 @@ exec 1> >(perl -nle 'BEGIN{$|=1} $d = localtime(); s/^/$d - /; print' >>"$(cd "$
 exec 2>&1
 
 # the dir path of the script
-sd="$( cd $(dirname "$0"); pwd -P )"
+sd="$( cd "$(dirname "$0")"; pwd -P )"
 
 # the root dir
 rootdir="${sd%/*/*}"
 
 # get the values in settings.conf of the sections General and OSX
-eval "$(sed -n -e '/^\[General\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}' "${sd}/../config/settings.conf")"
-eval "$(sed -n -e '/^\[OSX\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}' "${sd}/../config/settings.conf")"
+eval "$(perl -pe 'y|\r||d' "${sd}/../config/settings.conf" | sed -n -e '/^\[General\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}')"
+eval "$(perl -pe 'y|\r||d' "${sd}/../config/settings.conf" | sed -n -e '/^\[OSX\]$/,/^\[/ {' -e '/^[^\[]/p' -e '}')"
 
 # if the default_profile dir exists copy it recursively
 [ -n "${FirefoxDefaultProfile}" ] && FirefoxDefaultProfile="${rootdir}/${FirefoxDefaultProfile}"
