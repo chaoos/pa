@@ -105,6 +105,17 @@ if regex.Test(SpiceURL) Then
   SpiceClientBinary = fso.BuildPath(CurrentDirectory, GetInivalue( IniFile, "Windows", "SpiceClientBinary" ))
   SpiceClientArgs = GetInivalue( IniFile, "Windows", "SpiceClientArgs" )
 
+  ' Loop trough the URLMapper strings to search and replace parts in the Spice URL
+  For index = 0 to 9
+    strSearchString = GetInivalue( IniFile, "URLMapper", "SpiceURLSearchString[" & index & "]" )
+    strReplaceString = GetInivalue( IniFile, "URLMapper", "SpiceURLReplaceString[" & index & "]" )
+
+	' If both configuration options are not empty, replace it
+	If (Len(strSearchString) And Len(strReplaceString)) Then
+	  SpiceURL = Replace(SpiceURL, strSearchString, strReplaceString)
+	End if
+  Next
+
   ' Log the extracted information
   objLogFile.Write Date & " " & Time & " - URL Post: " & SpiceURL & vbCrLf
   objLogFile.Write Date & " " & Time & " - Client: " & SpiceClientBinary & vbCrLf
