@@ -20,8 +20,8 @@ eval "$(perl -pe 'y|\r||d' "${sd}/../config/settings.conf" | sed -n -e '/^\[OSX\
 # if the default_profile dir exists copy it recursively
 [ -n "${FirefoxDefaultProfile}" ] && FirefoxDefaultProfile="${rootdir}/${FirefoxDefaultProfile}"
 [ -n "${FirefoxProfileDir}" ] && FirefoxProfileDir="${rootdir}/${FirefoxProfileDir}"
-[ -d "${FirefoxDefaultProfile}" ] && [ -d "${FirefoxProfileDir}" ] && \
-  cp -r "${FirefoxDefaultProfile}" "${FirefoxProfileDir}"
+[ -d "${FirefoxDefaultProfile}" ] && [ ! -d "${FirefoxProfileDir}" ] && \
+  mkdir -p "${FirefoxProfileDir}" && cp -r "${FirefoxDefaultProfile}" "${FirefoxProfileDir}"
 
 # replace the placeholder in the mimeTypes.rdf file
 [ -n "${FirefoxSpiceURLHandler}" ] && FirefoxSpiceURLHandler="${rootdir}/${FirefoxSpiceURLHandler}"
